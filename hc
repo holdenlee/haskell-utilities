@@ -1,4 +1,4 @@
 #!/bin/bash
 
-ghc -o $1 $1.hs
+ghc -O2 -o $1 $1.hs
 

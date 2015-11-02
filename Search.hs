@@ -46,3 +46,7 @@ path g p q test =
         summary = fst
     in
       fmap (mapSnd reverse) (Search.bfs children target summary (p,[]))
+
+--bestfs :: (Eq b, Ord c) => (a -> [a]) -> (a -> Bool) -> (a -> b) -> (a -> c) -> a -> Maybe a
+--bestfs children target summary li visiteds heuristic = 
+    
