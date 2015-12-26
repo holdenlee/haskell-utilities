@@ -10,6 +10,9 @@ import qualified Data.Set as S
 import qualified Data.Map.Strict as M
 import qualified Data.Graph.Inductive as G
 import Data.Tree
+import Prelude -- necessary for Hint.
+
+--TODO: automatically derive for records
 
 class Pointed a where
   point :: a
@@ -34,3 +37,6 @@ instance Pointed (G.Gr a b) where
 
 instance Pointed a => Pointed (Tree a) where
   point = Node point []
+
+instance Pointed Int where
+  point = 0

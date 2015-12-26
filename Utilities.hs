@@ -18,6 +18,7 @@ import qualified Data.Hashable
 import Data.Either
 import Data.Maybe
 import Debug.Trace
+import Prelude -- necessary for Hint.
 
 -- * Function combinators
 
@@ -61,6 +62,11 @@ iflist li =
 
 -- * Loops/folds
 
+tryDo :: (a -> Maybe a) -> a -> a
+tryDo f x = case f x of
+             Nothing -> x
+             Just y -> y
+
 while :: (a -> Bool) -> (a -> a) -> a -> a
 while p f x = 
   if (p x) then while p f (f x) else x
@@ -90,8 +96,11 @@ foldIterate f as x = foldl (flip f) x as
 foldIterate2:: (a -> b -> c -> c) -> [a] -> [b] -> c -> c
 foldIterate2 f as bs x = foldl (\y -> \(xa, xb) -> f xa xb y) x (zip as bs)
 
+{-| Deprecated (because of conflict with built-in for). Use for'.-}
 for :: [a] -> b -> (a -> b -> b) -> b
 for li x0 f = foldl (flip f) x0 li
+
+for' = for
 
 -- * Function composition
 
@@ -119,7 +128,10 @@ third (_,_,z) = z
 
 appendFun :: (a -> b) -> a -> (a,b)
 appendFun f x = (x, f x)
- 
+
+prependFun :: (a -> b) -> a -> (b,a)
+prependFun f x = (f x, x)
+
 -- * Maps and Lists
 
 isInitialSegment :: Eq a => [a] -> [a] -> Bool
