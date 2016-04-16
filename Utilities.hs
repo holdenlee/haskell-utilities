@@ -157,6 +157,13 @@ replaceSublist m n li li2 =
 listUpdate :: Int -> a -> [a] -> [a]
 listUpdate n x li = replaceSublist n (n+1) [x] li
 
+mapFilter :: (a -> Maybe b) -> [a] -> [b]
+mapFilter f li = case li of 
+                   h:rest -> case f h of
+                               Nothing -> mapFilter f rest
+                               Just x -> x : mapFilter f rest
+                   _ -> []
+
 filterZip:: (b->Bool) -> [a] -> [b] -> [(a,b)]
 filterZip p as bs = filter (\(x,y) -> p y) (zip as bs)
 
