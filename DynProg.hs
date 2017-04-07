@@ -20,7 +20,7 @@ import qualified Data.Set as S
 import Data.Array
 
 import Utilities
-import ParseUtilities
+--import IOUtilities
 
 dp :: (Ord k) => (k -> [k]) -> (k -> [v] -> v) -> ((M.Map k v, k) -> (M.Map k v, v))
 dp genSimpler combine (m,x) = 
@@ -40,6 +40,7 @@ dpmap f ks = snd $ L.mapAccumL (curry f) M.empty ks
 dp2 :: (Ord k) => (k -> [k]) -> (k -> [v] -> v) -> k -> v
 dp2 genSimpler combine x = snd $ dp genSimpler combine (M.empty,x)
 
+{-
 --example
 fib :: Int -> Int 
 fib = dp2 (\n -> if n<=1 then [] else [n-1,n-2]) (\n vs -> if n==0 then 0 else if n==1 then 1 else vs!!0+vs!!1)
@@ -58,8 +59,5 @@ output li =
   unlines (emap (\(x,y) -> "Case #"++(show x)++": "++(show y)) li)
 
 main:: IO ()
-main = do
-  args <- getArgs
-  let inputF = if (length args >= 1) then args !! 0 else "a.in"
-  let outputF = if (length args >= 2) then args !! 1 else (take (length inputF - 2) inputF ++ "out")
-  ioFile inputF outputF (\s -> output $ map calc (input s))
+main = mainF (\s -> output $ map calc (input s))
+-}

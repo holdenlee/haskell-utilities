@@ -16,6 +16,7 @@ import Data.Array
 import Data.Tuple
 import Data.Graph.Inductive as G
 import Control.Lens hiding ((|>))
+import Data.Hashable
 --import Search
 
 import Utilities
@@ -77,3 +78,10 @@ insLens n = (contextLens n) . _1
 
 outsLens :: G.Node -> Lens' (G.Gr a b) (G.Adj b) --[(b, Node)]
 outsLens n = (contextLens n) . _4
+
+sMkGraph :: (Hashable a) => [a] -> [(a,a,b)] -> G.Gr a b
+sMkGraph verts edges = 
+    G.mkGraph (map (\x -> (hash x, x)) verts) (map (\(x,y,z) -> (hash x, hash y, z)) edges)
+
+sMkGraphN :: (Hashable a) => [a] -> [(a,a)] -> G.Gr a ()
+sMkGraphN vs es = sMkGraph vs $ map (\(x,y) -> (x,y,())) es
